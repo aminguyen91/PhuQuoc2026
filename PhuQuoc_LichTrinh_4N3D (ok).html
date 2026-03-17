@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Phú Quốc 4N3Đ - Lịch trình</title>
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; background: #f0f4f8; }
+  .page { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; }
+
+  /* HEADER */
+  .header { background: #1a6b5a; padding: 14px 16px 12px; text-align: center; }
+  .header h1 { color: #fff; font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .header p { color: #9FE1CB; font-size: 12px; }
+
+  /* MAP CONTAINER */
+  .map-wrap { position: relative; background: #c8e6f5; overflow: hidden; }
+  .map-wrap svg { display: block; width: 100%; height: auto; touch-action: none; }
+
+  /* INFO PANEL */
+  .info-panel { display: none; background: #fff; border-top: 3px solid #1a6b5a; padding: 14px 16px 16px; }
+  .info-panel.show { display: block; }
+  .panel-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+  .day-badge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+  .close-btn { font-size: 22px; color: #999; cursor: pointer; line-height: 1; padding: 0 4px; }
+  .place-name { font-size: 17px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+  .place-desc { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 10px; }
+  .place-dist { font-size: 12px; color: #1a6b5a; background: #e8f4f0; padding: 8px 12px; border-radius: 8px; font-weight: 500; }
+
+  /* LEGEND */
+  .legend { padding: 12px 14px; background: #fff; border-top: 1px solid #eee; display: flex; flex-wrap: wrap; gap: 8px; }
+  .leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* FOOTER */
+  .footer { background: #1a6b5a; text-align: center; padding: 10px; font-size: 11px; color: #9FE1CB; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="header">
+  <h1>Phú Quốc 4N3Đ &mdash; Bản đồ lịch trình</h1>
+  <p>10/4 &ndash; 13/4/2026 &bull; Bấm vào từng điểm để xem chi tiết</p>
+</div>
+
+<div class="map-wrap">
+<svg viewBox="0 0 680 980" xmlns="http://www.w3.org/2000/svg" id="mapsvg">
+
+  <!-- Ocean -->
+  <rect width="680" height="980" fill="#c8e6f5"/>
+
+  <!-- Island body — EXACT same path as original widget -->
+  <path d="M340,30 C370,28 410,40 440,70 C470,100 490,140 495,180 C500,220 490,260 480,300 C470,340 455,370 450,410 C445,450 448,490 440,530 C432,570 415,610 400,650 C385,690 370,730 355,760 C340,790 320,810 305,830 C290,850 275,865 260,870 C245,875 230,870 218,855 C206,840 200,820 195,800 C190,780 188,755 190,730 C192,705 198,675 200,645 C202,615 198,580 195,550 C192,520 188,488 185,455 C182,422 180,388 180,355 C180,322 182,288 188,255 C194,222 204,190 215,162 C226,134 240,110 258,88 C276,66 300,34 320,30 Z"
+    fill="#a8d5a2" stroke="#7ab87a" stroke-width="1.5"/>
+
+  <!-- Road along the spine -->
+  <path d="M308,130 L305,200 L298,280 L295,350 L300,420 L308,500 L318,580 L325,650 L330,720 L328,800" fill="none" stroke="#e8d5a0" stroke-width="3" opacity="0.7" stroke-linecap="round"/>
+
+  <!-- === DISTANCE LINES === -->
+  <!-- Airport → KS Maris ~3km -->
+  <line x1="310" y1="148" x2="320" y2="268" stroke="#888" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="293" y="212" font-size="9" fill="#1a6b5a" font-family="Arial,sans-serif">~3km</text>
+
+  <!-- KS Maris → Ganh Dau ~26km -->
+  <line x1="314" y1="268" x2="248" y2="208" stroke="#185FA5" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="266" y="230" font-size="9" fill="#185FA5" font-family="Arial,sans-serif">~26km</text>
+
+  <!-- Ganh Dau → Rach Vem ~8km -->
+  <line x1="248" y1="216" x2="256" y2="264" stroke="#185FA5" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="228" y="244" font-size="9" fill="#185FA5" font-family="Arial,sans-serif">~8km</text>
+
+  <!-- KS Maris → Grand World ~5km -->
+  <line x1="330" y1="278" x2="388" y2="330" stroke="#185FA5" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="366" y="298" font-size="9" fill="#185FA5" font-family="Arial,sans-serif">~5km</text>
+
+  <!-- KS Maris → An Thoi ~28km -->
+  <line x1="314" y1="282" x2="220" y2="694" stroke="#0F6E56" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.35"/>
+  <text x="252" y="500" font-size="9" fill="#0F6E56" font-family="Arial,sans-serif">~28km</text>
+
+  <!-- An Thoi → Hon Thom ~5km -->
+  <line x1="210" y1="706" x2="148" y2="760" stroke="#0F6E56" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="156" y="730" font-size="9" fill="#0F6E56" font-family="Arial,sans-serif">~5km</text>
+
+  <!-- Hon Thom → Sunset Town ~3km -->
+  <line x1="164" y1="768" x2="238" y2="756" stroke="#0F6E56" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="188" y="750" font-size="9" fill="#0F6E56" font-family="Arial,sans-serif">~3km</text>
+
+  <!-- KS Maris → Bai Khem ~25km -->
+  <line x1="326" y1="284" x2="400" y2="718" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.35"/>
+  <text x="376" y="514" font-size="9" fill="#BA7517" font-family="Arial,sans-serif">~25km</text>
+
+  <!-- Bai Khem → Bai Sao ~5km -->
+  <line x1="392" y1="732" x2="370" y2="778" stroke="#BA7517" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="394" y="758" font-size="9" fill="#BA7517" font-family="Arial,sans-serif">~5km</text>
+
+  <!-- Bai Sao → Ham Ninh ~12km -->
+  <line x1="368" y1="784" x2="436" y2="644" stroke="#3B6D11" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.5"/>
+  <text x="414" y="718" font-size="9" fill="#3B6D11" font-family="Arial,sans-serif">~12km</text>
+
+  <!-- === PINS (same coordinates as original widget) === -->
+
+  <!-- AIRPORT -->
+  <g id="p-airport" style="cursor:pointer">
+    <circle cx="310" cy="130" r="18" fill="#5F5E5A" opacity="0.9"/>
+    <circle cx="310" cy="130" r="23" fill="none" stroke="#5F5E5A" stroke-width="2" opacity="0.3"/>
+    <text x="310" y="137" text-anchor="middle" font-size="15" fill="#fff" font-family="Arial,sans-serif">&#9992;</text>
+    <text x="310" y="160" text-anchor="middle" font-size="11" fill="#2C2C2A" font-family="Arial,sans-serif" font-weight="bold">Sân bay</text>
+  </g>
+
+  <!-- KHACH SAN MARIS -->
+  <g id="p-hotel" style="cursor:pointer">
+    <circle cx="320" cy="275" r="18" fill="#7F77DD" opacity="0.95"/>
+    <circle cx="320" cy="275" r="23" fill="none" stroke="#7F77DD" stroke-width="2" opacity="0.3"/>
+    <text x="320" y="282" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">H</text>
+    <text x="320" y="308" text-anchor="middle" font-size="11" fill="#26215C" font-family="Arial,sans-serif" font-weight="bold">KS Maris</text>
+  </g>
+
+  <!-- GANH DAU -->
+  <g id="p-ganhdau" style="cursor:pointer">
+    <circle cx="248" cy="195" r="17" fill="#185FA5" opacity="0.9"/>
+    <circle cx="248" cy="195" r="22" fill="none" stroke="#185FA5" stroke-width="2" opacity="0.3"/>
+    <text x="248" y="201" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">1</text>
+    <text x="248" y="224" text-anchor="middle" font-size="11" fill="#0C447C" font-family="Arial,sans-serif" font-weight="bold">Gành Dầu</text>
+  </g>
+
+  <!-- RACH VEM -->
+  <g id="p-rachvem" style="cursor:pointer">
+    <circle cx="256" cy="252" r="17" fill="#185FA5" opacity="0.9"/>
+    <circle cx="256" cy="252" r="22" fill="none" stroke="#185FA5" stroke-width="2" opacity="0.3"/>
+    <text x="256" y="258" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">1</text>
+    <text x="256" y="281" text-anchor="middle" font-size="11" fill="#0C447C" font-family="Arial,sans-serif" font-weight="bold">Rạch Vẹm</text>
+  </g>
+
+  <!-- VUON TIEU -->
+  <g id="p-vuontieu" style="cursor:pointer">
+    <circle cx="270" cy="314" r="15" fill="#3B6D11" opacity="0.9"/>
+    <circle cx="270" cy="314" r="20" fill="none" stroke="#3B6D11" stroke-width="2" opacity="0.3"/>
+    <text x="270" y="320" text-anchor="middle" font-size="15" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">+</text>
+    <text x="270" y="342" text-anchor="middle" font-size="11" fill="#27500A" font-family="Arial,sans-serif" font-weight="bold">Vườn Tiêu</text>
+  </g>
+
+  <!-- GRAND WORLD -->
+  <g id="p-grandworld" style="cursor:pointer">
+    <circle cx="390" cy="335" r="17" fill="#185FA5" opacity="0.9"/>
+    <circle cx="390" cy="335" r="22" fill="none" stroke="#185FA5" stroke-width="2" opacity="0.3"/>
+    <text x="390" y="341" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">1</text>
+    <text x="390" y="364" text-anchor="middle" font-size="11" fill="#0C447C" font-family="Arial,sans-serif" font-weight="bold">Grand World</text>
+  </g>
+
+  <!-- DINH CAU -->
+  <g id="p-dinhcau" style="cursor:pointer">
+    <circle cx="294" cy="316" r="15" fill="#3B6D11" opacity="0.9"/>
+    <circle cx="294" cy="316" r="20" fill="none" stroke="#3B6D11" stroke-width="2" opacity="0.3"/>
+    <text x="294" y="322" text-anchor="middle" font-size="15" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">+</text>
+    <text x="294" y="344" text-anchor="middle" font-size="11" fill="#27500A" font-family="Arial,sans-serif" font-weight="bold">Dinh Cậu</text>
+  </g>
+
+  <!-- MUA SAM -->
+  <g id="p-muasam" style="cursor:pointer">
+    <circle cx="318" cy="260" r="16" fill="#993C1D" opacity="0.9"/>
+    <circle cx="318" cy="260" r="21" fill="none" stroke="#993C1D" stroke-width="2" opacity="0.3"/>
+    <text x="318" y="266" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">4</text>
+    <text x="318" y="289" text-anchor="middle" font-size="11" fill="#712B13" font-family="Arial,sans-serif" font-weight="bold">Mua sắm</text>
+  </g>
+
+  <!-- GALA DINNER -->
+  <g id="p-gala" style="cursor:pointer">
+    <circle cx="360" cy="380" r="17" fill="#BA7517" opacity="0.9"/>
+    <circle cx="360" cy="380" r="22" fill="none" stroke="#BA7517" stroke-width="2" opacity="0.3"/>
+    <text x="360" y="386" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">3</text>
+    <text x="360" y="409" text-anchor="middle" font-size="11" fill="#633806" font-family="Arial,sans-serif" font-weight="bold">Gala Dinner</text>
+  </g>
+
+  <!-- VINWONDERS -->
+  <g id="p-vinwonders" style="cursor:pointer">
+    <circle cx="352" cy="445" r="15" fill="#854F0B" opacity="0.85"/>
+    <circle cx="352" cy="445" r="20" fill="none" stroke="#854F0B" stroke-width="2" opacity="0.3"/>
+    <text x="352" y="451" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">&#9733;</text>
+    <text x="352" y="474" text-anchor="middle" font-size="11" fill="#633806" font-family="Arial,sans-serif" font-weight="bold">VinWonders</text>
+  </g>
+
+  <!-- AN THOI -->
+  <g id="p-anthoi" style="cursor:pointer">
+    <circle cx="218" cy="700" r="17" fill="#0F6E56" opacity="0.9"/>
+    <circle cx="218" cy="700" r="22" fill="none" stroke="#0F6E56" stroke-width="2" opacity="0.3"/>
+    <text x="218" y="706" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">2</text>
+    <text x="218" y="730" text-anchor="middle" font-size="11" fill="#085041" font-family="Arial,sans-serif" font-weight="bold">An Thới</text>
+  </g>
+
+  <!-- HON THOM island -->
+  <ellipse cx="130" cy="796" rx="34" ry="16" fill="#a8d5a2" stroke="#7ab87a" stroke-width="1.2" opacity="0.75"/>
+  <g id="p-honthom" style="cursor:pointer">
+    <circle cx="130" cy="796" r="17" fill="#0F6E56" opacity="0.9"/>
+    <circle cx="130" cy="796" r="22" fill="none" stroke="#0F6E56" stroke-width="2" opacity="0.3"/>
+    <text x="130" y="802" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">2</text>
+    <text x="130" y="826" text-anchor="middle" font-size="11" fill="#085041" font-family="Arial,sans-serif" font-weight="bold">Hòn Thơm</text>
+  </g>
+
+  <!-- SUNSET TOWN -->
+  <g id="p-sunsettown" style="cursor:pointer">
+    <circle cx="242" cy="762" r="17" fill="#0F6E56" opacity="0.9"/>
+    <circle cx="242" cy="762" r="22" fill="none" stroke="#0F6E56" stroke-width="2" opacity="0.3"/>
+    <text x="242" y="768" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">2</text>
+    <text x="242" y="791" text-anchor="middle" font-size="11" fill="#085041" font-family="Arial,sans-serif" font-weight="bold">Sunset Town</text>
+  </g>
+
+  <!-- HAM NINH -->
+  <g id="p-hamninh" style="cursor:pointer">
+    <circle cx="436" cy="640" r="15" fill="#3B6D11" opacity="0.9"/>
+    <circle cx="436" cy="640" r="20" fill="none" stroke="#3B6D11" stroke-width="2" opacity="0.3"/>
+    <text x="436" y="646" text-anchor="middle" font-size="15" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">+</text>
+    <text x="436" y="668" text-anchor="middle" font-size="11" fill="#27500A" font-family="Arial,sans-serif" font-weight="bold">Hàm Ninh</text>
+  </g>
+
+  <!-- BAI KHEM -->
+  <g id="p-baikhem" style="cursor:pointer">
+    <circle cx="400" cy="724" r="17" fill="#BA7517" opacity="0.9"/>
+    <circle cx="400" cy="724" r="22" fill="none" stroke="#BA7517" stroke-width="2" opacity="0.3"/>
+    <text x="400" y="730" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">3</text>
+    <text x="400" y="753" text-anchor="middle" font-size="11" fill="#633806" font-family="Arial,sans-serif" font-weight="bold">Bãi Khem</text>
+  </g>
+
+  <!-- BAI SAO -->
+  <g id="p-baisao" style="cursor:pointer">
+    <circle cx="370" cy="784" r="17" fill="#BA7517" opacity="0.9"/>
+    <circle cx="370" cy="784" r="22" fill="none" stroke="#BA7517" stroke-width="2" opacity="0.3"/>
+    <text x="370" y="790" text-anchor="middle" font-size="13" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">3</text>
+    <text x="370" y="813" text-anchor="middle" font-size="11" fill="#633806" font-family="Arial,sans-serif" font-weight="bold">Bãi Sao</text>
+  </g>
+
+  <!-- Day legend boxes -->
+  <rect x="490" y="180" width="178" height="34" rx="7" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="0.5"/>
+  <circle cx="507" cy="197" r="9" fill="#185FA5"/>
+  <text x="507" y="202" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">1</text>
+  <text x="522" y="193" font-size="11" fill="#0C447C" font-family="Arial,sans-serif" font-weight="bold">Ngày 1 · 10/4</text>
+  <text x="522" y="207" font-size="10" fill="#185FA5" font-family="Arial,sans-serif">Bắc đảo + Grand World</text>
+
+  <rect x="490" y="224" width="178" height="34" rx="7" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="0.5"/>
+  <circle cx="507" cy="241" r="9" fill="#0F6E56"/>
+  <text x="507" y="246" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">2</text>
+  <text x="522" y="237" font-size="11" fill="#085041" font-family="Arial,sans-serif" font-weight="bold">Ngày 2 · 11/4</text>
+  <text x="522" y="251" font-size="10" fill="#0F6E56" font-family="Arial,sans-serif">Cano 4 đảo + Sunset</text>
+
+  <rect x="490" y="268" width="178" height="34" rx="7" fill="#FAEEDA" stroke="#FAC775" stroke-width="0.5"/>
+  <circle cx="507" cy="285" r="9" fill="#BA7517"/>
+  <text x="507" y="290" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">3</text>
+  <text x="522" y="281" font-size="11" fill="#633806" font-family="Arial,sans-serif" font-weight="bold">Ngày 3 · 12/4</text>
+  <text x="522" y="295" font-size="10" fill="#BA7517" font-family="Arial,sans-serif">Bãi biển + Gala</text>
+
+  <rect x="490" y="312" width="178" height="34" rx="7" fill="#FAECE7" stroke="#F5C4B3" stroke-width="0.5"/>
+  <circle cx="507" cy="329" r="9" fill="#993C1D"/>
+  <text x="507" y="334" text-anchor="middle" font-size="11" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">4</text>
+  <text x="522" y="325" font-size="11" fill="#712B13" font-family="Arial,sans-serif" font-weight="bold">Ngày 4 · 13/4</text>
+  <text x="522" y="339" font-size="10" fill="#993C1D" font-family="Arial,sans-serif">Mua sắm + Bay về</text>
+
+  <rect x="490" y="356" width="178" height="26" rx="7" fill="#EAF3DE" stroke="#C0DD97" stroke-width="0.5"/>
+  <circle cx="507" cy="369" r="8" fill="#3B6D11"/>
+  <text x="507" y="374" text-anchor="middle" font-size="12" fill="#fff" font-family="Arial,sans-serif" font-weight="bold">+</text>
+  <text x="522" y="366" font-size="11" fill="#27500A" font-family="Arial,sans-serif" font-weight="bold">Bổ sung thêm ✨</text>
+  <text x="522" y="377" font-size="10" fill="#3B6D11" font-family="Arial,sans-serif">Không trong lịch gốc</text>
+
+  <!-- Compass -->
+  <circle cx="614" cy="108" r="24" fill="#fff" opacity="0.88"/>
+  <text x="614" y="98" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a6b5a" font-family="Arial,sans-serif">N</text>
+  <polygon points="614,82 610,98 614,95 618,98" fill="#1a6b5a" opacity="0.8"/>
+  <text x="614" y="126" text-anchor="middle" font-size="9" fill="#555" font-family="Arial,sans-serif">Nam</text>
+
+  <!-- Scale bar -->
+  <rect x="490" y="940" width="90" height="4" rx="2" fill="#1a6b5a" opacity="0.6"/>
+  <text x="490" y="956" font-size="9" fill="#1a6b5a" font-family="Arial,sans-serif">0</text>
+  <text x="584" y="956" font-size="9" fill="#1a6b5a" font-family="Arial,sans-serif" text-anchor="end">~10 km</text>
+
+  <!-- Footer bar inside SVG -->
+  <rect x="0" y="960" width="680" height="20" fill="#1a6b5a" opacity="0.9"/>
+  <text x="340" y="974" text-anchor="middle" font-size="10" fill="#9FE1CB" font-family="Arial,sans-serif">Phú Quốc · 10/4–13/4/2026 · Bấm vào điểm để xem chi tiết</text>
+
+</svg>
+</div>
+
+<!-- INFO PANEL -->
+<div class="info-panel" id="infopanel">
+  <div class="panel-top">
+    <span class="day-badge" id="ip-day"></span>
+    <span class="close-btn" id="closeBtn">&#215;</span>
+  </div>
+  <div class="place-name" id="ip-name"></div>
+  <div class="place-desc" id="ip-desc"></div>
+  <div class="place-dist" id="ip-dist"></div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#185FA5"></div>Ngày 1</div>
+  <div class="leg"><div class="leg-dot" style="background:#0F6E56"></div>Ngày 2</div>
+  <div class="leg"><div class="leg-dot" style="background:#BA7517"></div>Ngày 3</div>
+  <div class="leg"><div class="leg-dot" style="background:#993C1D"></div>Ngày 4</div>
+  <div class="leg"><div class="leg-dot" style="background:#3B6D11"></div>Bổ sung ✨</div>
+  <div class="leg"><div class="leg-dot" style="background:#854F0B"></div>Tự túc ★</div>
+  <div class="leg"><div class="leg-dot" style="background:#7F77DD"></div>Khách sạn</div>
+  <div class="leg"><div class="leg-dot" style="background:#5F5E5A"></div>Sân bay</div>
+</div>
+
+<div class="footer">Phú Quốc &bull; Kiên Giang &bull; 10/4 &ndash; 13/4/2026</div>
+
+</div><!-- .page -->
+
+<script>
+var pinData = {
+  "p-airport": {
+    day: "Tất cả các ngày", dayColor: "#2C2C2A", dayBg: "#F1EFE8",
+    name: "Sân bay Dương Đông",
+    desc: "Bay HN → PQ: chuyến 9G1207 lúc 7h45 ngày 10/4. Bay về HN: chuyến 9G1224 lúc 15h45 ngày 13/4. Tập trung tại Nội Bài lúc 6h00.",
+    dist: "Cách KS Maris khoảng 3km · đi xe khoảng 10 phút"
+  },
+  "p-hotel": {
+    day: "Lưu trú cả 3 đêm", dayColor: "#3C3489", dayBg: "#EEEDFE",
+    name: "Khách sạn Maris 4 sao",
+    desc: "152 Trần Hưng Đạo, Dương Đông, Phú Quốc. Check-in trưa ngày 10/4, check-out 9h00 ngày 13/4. Resort ven biển, điểm xuất phát cho tất cả hành trình.",
+    dist: "Trung tâm thị trấn Dương Đông · Điểm xuất phát mọi hành trình"
+  },
+  "p-ganhdau": {
+    day: "Ngày 1 · 14:30", dayColor: "#0C447C", dayBg: "#E6F1FB",
+    name: "Gành Dầu + Bãi Dài",
+    desc: "Ngắm hải giới Việt Nam – Campuchia. Bãi Dài được Forbes bình chọn top 6 bãi biển đẹp nhất hành tinh. Cảnh quan hoang sơ, ít người.",
+    dist: "Cách KS Maris khoảng 26km · đi xe khoảng 40 phút"
+  },
+  "p-rachvem": {
+    day: "Ngày 1 · 15:00", dayColor: "#0C447C", dayBg: "#E6F1FB",
+    name: "Làng chài Rạch Vẹm",
+    desc: "Bãi biển hoang sơ, nhiều san hô biển. Tắm biển thoải mái. Có thể thuê thuyền ra Mũi Hàm Rồng xem Sao Biển (150K/vé 2 chiều).",
+    dist: "Cách Gành Dầu khoảng 8km · Cách KS về khoảng 22km"
+  },
+  "p-vuontieu": {
+    day: "Ngày 1 · 16:00 ✨ Bổ sung", dayColor: "#27500A", dayBg: "#EAF3DE",
+    name: "Vườn tiêu Phú Quốc",
+    desc: "Đặc sản nổi tiếng nhất đảo. Tham quan miễn phí, có thể mua hạt tiêu tươi làm quà. Nằm trên đường về từ Gành Dầu, ghé 5–10 phút.",
+    dist: "Trên đường về từ Rạch Vẹm về KS · ghé thêm ~5 phút"
+  },
+  "p-grandworld": {
+    day: "Ngày 1 · 19:30", dayColor: "#0C447C", dayBg: "#E6F1FB",
+    name: "Grand World",
+    desc: "Kênh đào Venice phong cách Ý, show nhạc nước miễn phí, show Sắc màu Venice 21:30. Tự túc: thuyền Angola 200K, show Tinh hoa Việt Nam 300K.",
+    dist: "Cách KS Maris khoảng 5km · đi xe khoảng 10 phút"
+  },
+  "p-dinhcau": {
+    day: "Ngày 4 · 09:30 ✨ Bổ sung", dayColor: "#27500A", dayBg: "#EAF3DE",
+    name: "Dinh Cậu",
+    desc: "Đền linh thiêng nhất Phú Quốc, thờ thần biển. Ngắm cảng Dương Đông và hoàng hôn. Vào cửa miễn phí. Đi bộ từ khách sạn được.",
+    dist: "Cách KS Maris khoảng 0.5km · đi bộ 5–7 phút"
+  },
+  "p-muasam": {
+    day: "Ngày 4 · 10:00", dayColor: "#712B13", dayBg: "#FAECE7",
+    name: "Mua sắm + Ngọc Hiền",
+    desc: "Siêu thị Hương Đảo / KingKong: tiêu, nước mắm, rượu sim, hải sản khô. Ngọc trai Ngọc Hiền: xem quy trình nuôi cấy và mua ngọc chính hiệu.",
+    dist: "Trung tâm thị trấn · Cách KS Maris khoảng 1km"
+  },
+  "p-gala": {
+    day: "Ngày 3 · 18:00", dayColor: "#633806", dayBg: "#FAEEDA",
+    name: "Gala 20 năm công ty",
+    desc: "Tiệc BBQ hải sản, mini game sân khấu, giao lưu ca hát. Kịch bản: khai mạc → phát biểu lãnh đạo → giao lưu ca hát → tiệc tối → trò chơi.",
+    dist: "Tại nhà hàng gần Resort · khoảng 5 phút xe"
+  },
+  "p-vinwonders": {
+    day: "Ngày 3 · 14:00 (tự túc ★)", dayColor: "#633806", dayBg: "#FAEEDA",
+    name: "VinWonders & Safari",
+    desc: "6 phân khu giải trí. Safari lớn thứ 2 Đông Nam Á. Combo VinWonders+Safari: 1.500K/người lớn, 1.100K/trẻ em. Xe Vinpearl đưa đón miễn phí.",
+    dist: "Cách KS Maris khoảng 8km · xe Vin đưa đón miễn phí"
+  },
+  "p-anthoi": {
+    day: "Ngày 2 · 08:00", dayColor: "#085041", dayBg: "#E1F5EE",
+    name: "Cảng An Thới · Tour 4 đảo",
+    desc: "Cano qua 12 hòn đảo: san hô nhân tạo (Seawalker ~600K tự túc), Hòn Mây Rút Ngoài (chụp ảnh SUP miễn phí), Hòn Gầm Ghì (lặn ngắm san hô).",
+    dist: "Cách KS Maris khoảng 28km · đi xe khoảng 45 phút"
+  },
+  "p-honthom": {
+    day: "Ngày 2 · 12:00–16:00", dayColor: "#085041", dayBg: "#E1F5EE",
+    name: "Hòn Thơm · Cáp treo",
+    desc: "Buffet trưa tại đảo. Công viên nước Aquatopia (lớn nhất Đông Nam Á). Cáp treo trên biển dài nhất thế giới 7.899m, ngắm toàn đảo từ trên cao.",
+    dist: "Cách cảng An Thới khoảng 5km · đi bằng cano hoặc cáp treo"
+  },
+  "p-sunsettown": {
+    day: "Ngày 2 · 17:00–21:30", dayColor: "#085041", dayBg: "#E1F5EE",
+    name: "Sunset Town · Cầu Hôn",
+    desc: "Thị trấn Địa Trung Hải, kiến trúc kiểu Amalfi Ý. Cầu Hôn Kiss Bridge check-in miễn phí. Show Symphony of the Sea 19:45. Pháo hoa miễn phí 21:00.",
+    dist: "Cách Hòn Thơm khoảng 3km · Cách KS Maris khoảng 22km"
+  },
+  "p-hamninh": {
+    day: "Ngày 3 · 11:00 ✨ Bổ sung", dayColor: "#27500A", dayBg: "#EAF3DE",
+    name: "Làng chài Hàm Ninh",
+    desc: "Thưởng thức ghẹ, hàu, ốc tươi ngay tại bến tàu với giá rất rẻ. Khung cảnh làng chài yên bình với nhiều cầu cảng gỗ đẹp để chụp ảnh.",
+    dist: "Cách Bãi Sao khoảng 12km · Cách KS Maris khoảng 20km"
+  },
+  "p-baikhem": {
+    day: "Ngày 3 · 08:00", dayColor: "#633806", dayBg: "#FAEEDA",
+    name: "Bãi Khem",
+    desc: "Top 50 bãi biển đẹp nhất thế giới (Flight Network, Canada 2018). Cát trắng mịn, nước xanh trong. Tắm nước ngọt tự túc.",
+    dist: "Cách KS Maris khoảng 25km · đi xe khoảng 35 phút"
+  },
+  "p-baisao": {
+    day: "Ngày 3 · 09:30", dayColor: "#633806", dayBg: "#FAEEDA",
+    name: "Bãi Sao",
+    desc: "Bãi biển đẹp nhất Phú Quốc từ tháng 4 đến tháng 10. Cát trắng mịn trải dài, nước trong xanh đến tận đáy. Nhiều hàng quán ven biển.",
+    dist: "Cách Bãi Khem khoảng 5km · Cách KS Maris khoảng 23km"
+  }
+};
+
+var panel = document.getElementById("infopanel");
+var ipDay = document.getElementById("ip-day");
+var ipName = document.getElementById("ip-name");
+var ipDesc = document.getElementById("ip-desc");
+var ipDist = document.getElementById("ip-dist");
+
+function showInfo(id) {
+  var d = pinData[id];
+  if (!d) return;
+  ipDay.textContent = d.day;
+  ipDay.style.background = d.dayBg;
+  ipDay.style.color = d.dayColor;
+  ipName.textContent = d.name;
+  ipDesc.textContent = d.desc;
+  ipDist.textContent = d.dist;
+  panel.classList.add("show");
+  setTimeout(function() {
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, 50);
+}
+
+document.querySelectorAll("[id^='p-']").forEach(function(el) {
+  el.addEventListener("click", function(e) {
+    e.stopPropagation();
+    showInfo(el.id);
+  });
+  el.addEventListener("touchend", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    showInfo(el.id);
+  }, { passive: false });
+});
+
+document.getElementById("closeBtn").addEventListener("click", function() {
+  panel.classList.remove("show");
+});
+document.getElementById("closeBtn").addEventListener("touchend", function(e) {
+  e.preventDefault();
+  panel.classList.remove("show");
+}, { passive: false });
+</script>
+</body>
+</html>
