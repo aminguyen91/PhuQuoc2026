@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Trình Phú Quốc 4 Ngày 3 Đêm - Bản Đồ Trực Quan</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { margin:0; padding:0; font-family: Arial, sans-serif; background:#f0f8ff; }
+        #header {
+            background: linear-gradient(90deg, #00bfff, #1e90ff);
+            color: white; padding: 15px; text-align: center; font-size: 1.3em; font-weight: bold;
+        }
+        #map { height: calc(100vh - 110px); width: 100%; }
+        .legend {
+            position: absolute; bottom: 20px; left: 20px; background: white; padding: 10px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); font-size: 0.9em; z-index: 1000;
+        }
+        .popup-content h3 { margin: 5px 0; color: #0066cc; }
+        .day1 { background: #a3e4d7; }
+        .day2 { background: #a8e6a1; }
+        .day3 { background: #ffcc99; }
+        .day4 { background: #d7b3ff; }
+    </style>
+</head>
+<body>
+
+<div id="header">🌴 Lịch Trình Phú Quốc 4 Ngày 3 Đêm - Bản Đồ Trực Quan</div>
+<div id="map"></div>
+
+<div class="legend">
+    <strong>Chú thích:</strong><br>
+    <span style="color:#1e90ff">●</span> Ngày 1 (Đông - Nam đảo)<br>
+    <span style="color:#32cd32">●</span> Ngày 2 (Bắc đảo - VinWonders)<br>
+    <span style="color:#ff8c00">●</span> Ngày 3 (Hòn Thơm - Cáp treo)<br>
+    <span style="color:#9932cc">●</span> Ngày 4 (Tự do - Sân bay)<br>
+    ★ Điểm trong tour (đã bao gồm)<br>
+    ○ Gợi ý ngoài tour (tự túc)
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// Tọa độ Phú Quốc (center)
+const map = L.map('map').setView([10.289, 103.96], 11);
+
+// Layer bản đồ Phú Quốc (OpenStreetMap + tùy chỉnh)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Các điểm chính (tọa độ thực tế gần đúng)
+const points = [
+    // Ngày 1 - Xanh dương
+    {id:1, day:1, name:"Sân bay Phú Quốc", lat:10.370, lng:103.993, type:"tour", desc:"Đón đoàn & di chuyển về khách sạn (10-15km, 20-30 phút). Xe tour miễn phí.", cost:"Đã bao gồm"},
+    {id:2, day:1, name:"Suối Tranh", lat:10.340, lng:103.920, type:"tour", desc:"Tham quan suối + tắm suối. Kết hợp Vườn tiêu và Nhà tù Phú Quốc.", cost:"Đã bao gồm vé + ăn trưa"},
+    {id:3, day:1, name:"Bãi Sao", lat:10.250, lng:103.950, type:"tour", desc:"Bãi biển đẹp nhất Phú Quốc. Tắm biển, chụp ảnh.", cost:"Đã bao gồm"},
+    {id:4, day:1, name:"Dinh Cậu (Gợi ý)", lat:10.280, lng:103.980, type:"optional", desc:"Chụp ảnh check-in, ngắm hoàng hôn, ăn hải sản chợ đêm.", cost:"Tự túc"},
+
+    // Ngày 2 - Xanh lá
+    {id:5, day:2, name:"Vinpearl Safari", lat:10.400, lng:103.950, type:"tour", desc:"Tham quan vườn thú bán hoang dã.", cost:"Đã bao gồm vé"},
+    {id:6, day:2, name:"VinWonders Phú Quốc", lat:10.395, lng:103.960, type:"tour", desc:"Công viên giải trí lớn nhất đảo. Roller coaster, thủy cung...", cost:"Đã bao gồm vé không giới hạn + ăn"},
+    {id:7, day:2, name:"Grand World", lat:10.385, lng:103.965, type:"tour", desc:"Thành phố không ngủ - show nhạc nước, đi dạo.", cost:"Đã bao gồm"},
+    {id:8, day:2, name:"Bãi Dài (Gợi ý)", lat:10.420, lng:103.930, type:"optional", desc:"Bãi biển hoang sơ dài nhất Phú Quốc.", cost:"Tự túc"},
+
+    // Ngày 3 - Cam
+    {id:9, day:3, name:"Ga Cáp Treo An Thới", lat:10.220, lng:103.950, type:"tour", desc:"Cáp treo dài nhất thế giới đến Hòn Thơm.", cost:"Đã bao gồm"},
+    {id:10, day:3, name:"Hòn Thơm - Sun World", lat:10.180, lng:103.970, type:"tour", desc:"Công viên nước, lặn ngắm san hô, buffet.", cost:"Đã bao gồm"},
+    {id:11, day:3, name:"Địa Trung Hải / Sunset Town", lat:10.225, lng:103.945, type:"tour", desc:"Kiến trúc đẹp, check-in sống ảo.", cost:"Đã bao gồm"},
+    {id:12, day:3, name:"Bãi Khem (Gợi ý)", lat:10.240, lng:103.920, type:"optional", desc:"Bãi biển hoang sơ, nước trong vắt.", cost:"Tự túc"},
+
+    // Ngày 4 - Tím
+    {id:13, day:4, name:"Bãi biển tự do gần khách sạn", lat:10.290, lng:103.980, type:"tour", desc:"Tự do tắm biển, nghỉ ngơi.", cost:"Đã bao gồm"},
+    {id:14, day:4, name:"Sân bay Phú Quốc", lat:10.370, lng:103.993, type:"tour", desc:"Trả phòng & tiễn sân bay.", cost:"Đã bao gồm xe tiễn"}
+];
+
+// Thêm marker
+points.forEach(p => {
+    let color = p.day === 1 ? '#1e90ff' : 
+                p.day === 2 ? '#32cd32' : 
+                p.day === 3 ? '#ff8c00' : '#9932cc';
+    
+    let iconHtml = p.type === "tour" ? 
+        `<div style="background:${color}; color:white; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; border:3px solid white; box-shadow:0 2px 6px rgba(0,0,0,0.3);">★</div>` :
+        `<div style="background:${color}; color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; border:2px solid white;">○</div>`;
+
+    const customIcon = L.divIcon({
+        className: 'custom-icon',
+        html: iconHtml,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+    });
+
+    const marker = L.marker([p.lat, p.lng], {icon: customIcon}).addTo(map);
+
+    marker.bindPopup(`
+        <div class="popup-content day${p.day}">
+            <h3>${p.name}</h3>
+            <p><strong>Ngày ${p.day}</strong></p>
+            <p>${p.desc}</p>
+            <p><strong>Chi phí:</strong> <span style="color:${p.type==='tour'?'#006400':'#b22222'}">${p.cost}</span></p>
+            <small>Khoảng cách di chuyển tham khảo: 10-30 phút tùy điểm</small>
+        </div>
+    `, {maxWidth: 280});
+});
+
+// Thêm đường nối lộ trình Ngày 1 → 2 → 3 → 4 (mũi tên gợi ý)
+const routeCoords = [
+    [10.370,103.993], [10.340,103.920], [10.250,103.950],   // Ngày 1
+    [10.400,103.950], [10.395,103.960], [10.385,103.965],   // Ngày 2
+    [10.220,103.950], [10.180,103.970], [10.225,103.945],   // Ngày 3
+    [10.290,103.980], [10.370,103.993]                       // Ngày 4
+];
+
+L.polyline(routeCoords, {color: '#666', weight: 3, opacity: 0.7, dashArray: '8,6'}).addTo(map);
+
+</script>
+</body>
+</html>
